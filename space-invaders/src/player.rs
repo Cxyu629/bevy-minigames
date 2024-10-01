@@ -27,10 +27,10 @@ pub struct Player {
 
 fn setup_player(
     mut commands: Commands,
-    asset_server: Res<AssetServer>,
     resolution: Res<Resolution>,
+    player_texture: Res<game::PlayerTexture>,
 ) {
-    let player_texture = asset_server.load("player.png");
+    let player_texture = player_texture.0.clone();
 
     commands.spawn((
         Player { shoot_timer: 0.0 },
@@ -49,7 +49,7 @@ fn setup_player(
 
 fn update_player(
     mut commands: Commands,
-    asset_server: Res<AssetServer>,
+    bullet_texture: Res<game::BulletTexture>,
     mut player_query: Query<(&mut Player, &mut Transform)>,
     time: Res<Time>,
     keys: Res<ButtonInput<KeyCode>>,
@@ -84,7 +84,7 @@ fn update_player(
     if keys.pressed(KeyCode::Space) && player.shoot_timer <= 0.0 {
         player.shoot_timer = SHOOT_COOLDOWN;
 
-        let bullet_texture: Handle<Image> = asset_server.load("bullet.png");
+        let bullet_texture: Handle<Image> = bullet_texture.0.clone();
         let velocity = Vec3::new(horizontal * SPEED, BULLET_SPEED, 0.0);
 
         commands.spawn((

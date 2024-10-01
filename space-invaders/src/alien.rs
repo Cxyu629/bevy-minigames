@@ -51,10 +51,10 @@ impl FromWorld for AlienManager {
 
 fn setup_aliens(
     mut commands: Commands,
-    asset_server: Res<AssetServer>,
     resolution: Res<Resolution>,
+    alien_texture: Res<game::AlienTexture>,
 ) {
-    let alien_texture = asset_server.load("alien.png");
+    let alien_texture = alien_texture.0.clone();
 
     for x in 0..WIDTH {
         for y in 0..HEIGHT {
@@ -89,9 +89,7 @@ fn update_aliens_movement(
     for mut alien_transform in &mut alien_query {
         alien_transform.translation += time.delta_seconds() * alien_manager.velocity;
 
-        if alien_transform.translation.x.abs() + ALIEN_SIZE.x / 2.0
-            > resolution.size.x * 0.5
-        {
+        if alien_transform.translation.x.abs() + ALIEN_SIZE.x / 2.0 > resolution.size.x * 0.5 {
             out_of_bounds_flag = true;
         }
     }
@@ -126,8 +124,7 @@ fn update_player_interaction(
         let alien_bounding_box = Aabb2d::new(alien_transform.translation.xy(), ALIEN_SIZE / 2.0);
 
         if player_bounding_box.intersects(&alien_bounding_box)
-            || alien_transform.translation.y - ALIEN_SIZE.y / 2.0
-                <= -resolution.size.y / 2.0
+            || alien_transform.translation.y - ALIEN_SIZE.y / 2.0 <= -resolution.size.y / 2.0
         {
             next_state.set(game::GameState::GameOver)
         }
