@@ -1,0 +1,10 @@
+[package]
+name = "space-invaders"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+bevy = { version = "0.14.2", features = ["webgpu"] }
+
+[dev-dependencies]
+bevy = { version = "0.14.2", features = ["dynamic_linking"] }
