@@ -1,5 +1,5 @@
 [workspace]
-members = ["space-invaders"]
+members = [ "cube-outline", "snake-game","space-invaders"]
 resolver = "2"
 
 [profile.dev.package."*"]
